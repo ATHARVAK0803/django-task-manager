@@ -1,0 +1,97 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Meta Info -->
+  <meta property="og:description" content="A modern task management Django Web App" />
+  <meta property="og:site_name" content="Tasks" />
+  <meta property="og:image" content="{% static 'images/your-gif.gif' %}" />
+  <meta name="twitter:title" content="Tasks">
+  <meta name="twitter:description" content="A modern, efficient Task App built using Django">
+  <meta name="twitter:image:src" content="{% static 'images/your-gif.gif' %}" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+  <link rel="shortcut icon" href="{% static 'images/tasker.png' %}">
+  <title>{% block title %}{% endblock %}</title>
+
+  <style>
+    body {
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light-theme {
+      background-image: url("{% static 'images/wa.png' %}");
+      color: #212529;
+    }
+
+    body.dark-theme {
+      background-color: #121212;
+      color: #f1f1f1;
+      background-image: url("{% static 'images/wa-dark.png' %}");
+    }
+
+    .theme-toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      border: 1px solid #ccc;
+      padding: 8px 14px;
+      background-color: #ffffffc2;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .dark-theme .theme-toggle-btn {
+      background-color: #333;
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="light-theme">
+
+  <!-- 🌗 Theme Button -->
+  <button class="theme-toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
+
+  <!-- Main Content -->
+  <div class="container pt-4">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      body.classList.remove(`${currentTheme}-theme`);
+      body.classList.add(`${newTheme}-theme`);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    (function () {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.classList.remove('light-theme', 'dark-theme');
+      document.body.classList.add(`${savedTheme}-theme`);
+    })();
+  </script>
+
+  {% block javascript %}{% endblock %}
+</body>
+</html>
